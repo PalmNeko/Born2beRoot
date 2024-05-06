@@ -97,16 +97,10 @@
 
 1. `Defaults	requiretty` を設定することで、ttyを必須にする。
 
-## セキュリティの観点で、`/usr/local/sbin`, `/usr/local/bin`, `/usr/sbin`, `/usr/bin`, `/sbin`, `/bin`, `/snap/bin`
-のようなパスは、`sudo`でも制限する必要がある。
+## セキュリティの観点で、`sudo`でも　`/usr/local/sbin`, `/usr/local/bin`, `/usr/sbin`, `/usr/bin`, `/sbin`, `/bin`, `/snap/bin`
+のようなパスに、制限する必要がある。
 
-1. `root`で`/usr/sudo-bin`ディレクトリを作成する。権限設定例`drwxr-xr-x` 所有者、所有グループが`root`であることを確認する。
-
-1. `Defaults	secure_path="/usr/sudo-bin`を追加する。
-
-1. 必要に応じて`root`権限で`ln`コマンドを使って、`/usr/sudo-bin`にコマンドを追加する。
-
-> こうすることで、`sudo-bin`に入れたもの以外は`sudo`で実行できない。
+1. secure_pathの行を `Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"`
 
 # man
 
