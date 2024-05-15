@@ -42,14 +42,6 @@
 
 1. 完了
 
-# LVM
-
-> 参考：https://wiki.debian.org/LVM#Encrypted_LVM
-
-1. 管理者権限で`apt install lvm2`を実行。
-
-1.
-
 # man
 
 1. 管理者権限で`apt install man`を実行。
@@ -57,13 +49,3 @@
 # グループの追加
 
 1. 管理者権限で、`groupadd user42`を実行して、`user42`グループを追加する。
-
-### 情報
-
-1. `monitoring.sh`を作成し、`root`のホームディレクトリに保存する。
-
-1. `crontab -e -u root`を実行して、`cron`の設定ファイルを開く。
-
-1. `*/10 * * * * bash ~/monitoring.sh`の行を追加して、保存し閉じる。
-
-1. １０分後に情報が表示されればOK。
