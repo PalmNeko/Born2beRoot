@@ -35,12 +35,12 @@
 1. `password	requisite	pam_pwquality.so retry=3`の記載がある行を次のように編集する。
 ```
 password	requisite	pam_pwquality.so retry=3 \
-	minlen=10 dcredit=-1 ucredit=-1 lcredit=-1 maxrepeat=3 usercheck=1 diffok=7 enforce_for_root
+	minlen=10 dcredit=-1 ucredit=-1 lcredit=-1 maxrepeat=3 usercheck=1 difok=7 enforce_for_root
 ```
 > `dcredit=-1`: 数値が一文字以上含まれていること
 > `ucredit=-1`: 大文字が一文字以上含まれていること
 > `lcredit=-1`: 小文字が一文字以上含まれていること
 > `maxrepeat=3`: 文字の繰り返しが最大で３回であること。
 > `usercheck=1`: ログイン名が含まれていないこと。（ログイン名が三文字以下の場合は動作しない。）
-> `diffok=7`: パスワードに対して、変更（挿入、削除、置換）して同じパスワードにならないこと。
+> `difok=7`: パスワードに対して、変更（挿入、削除、置換）して同じパスワードにならないこと。
 > `enforce_for_root`: `root`ユーザにもパスワードポリシーを強制する。
