@@ -52,6 +52,9 @@ surround '\033[36mTesting Born2Beroot!!\033[m'
 
 # check disk
 testSweet "block device and lvm"
+it "must be enable to lvm" $(
+    lsblk -o TYPE | grep 'lvm'
+)
 it "must have encrypted partition." $(
     lsblk | grep -e 'crypt'
 )
@@ -80,12 +83,18 @@ it "must run in 4242 port" $(
 it "must not be possible to connect using SSH as root" $(
     sudo sshd -T | grep 'permitrootlogin no'
 )
+it "is activate" $(
+    service --status-all | grep '.*\+.*ssh'
+)
 
 # UFW
 testSweet "UFW"
 it "must open only 4242 port" $(
     LINES="$(sudo ufw status | grep "ALLOW" | grep -v "4242" | wc -l)"
     test $LINES -eq 0
+)
+it "is activate" $(
+    service --status-all | grep '.*\+.*ufw'
 )
 
 
