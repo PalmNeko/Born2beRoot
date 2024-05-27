@@ -168,7 +168,7 @@ it "that password must not include the name of the user." $(
 it "that password must have at least 7 characters that are not part of the former password." $(
     cat /etc/pam.d/common-password | grep -vE '^ *#.*' | grep 'difok=7'
 )
-it "that password must have at least 7 characters that are not part of the former password." $(
+it "must be made root comply." $(
     cat /etc/pam.d/common-password | grep -vE '^ *#.*' | grep 'enforce_for_root'
 )
 
