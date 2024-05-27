@@ -144,6 +144,15 @@ it "that named root must be received a warning message 7 days before their passw
     MSGDAY=$(sudo chage -l "root" | grep 'Number of days of warning before password expires' | awk -F ":" '{ print $2 }')
     test "$MSGDAY" -eq 7
 )
+it "that a new user must be warned a message before 7 days in password expired." $(
+    cat /etc/login.defs | grep -vE '^ *#.*' | grep -E 'PASS_WARN_AGE[[:space:]]+7'
+)
+it "that a new user's password must expire after 30 days." $(
+    cat /etc/login.defs | grep -vE '^ *#.*' | grep -E 'PASS_MAX_DAYS[[:space:]]+30'
+)
+it "that a new user must be able to change their password after 2 days." $(
+    cat /etc/login.defs | grep -vE '^ *#.*' | grep -E 'PASS_MIN_DAYS[[:space:]]+2'
+)
 
 # check password-policy
 testSweet "password policy"
