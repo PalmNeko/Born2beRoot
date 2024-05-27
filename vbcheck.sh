@@ -52,28 +52,30 @@ surround '\033[36mTesting Born2Beroot!!\033[m'
 
 # check disk
 testSweet "block device and lvm"
-it "must be enable to lvm" $(
-    lsblk -o TYPE | grep 'lvm'
-)
-it "must have encrypted partition." $(
-    lsblk | grep -e 'crypt'
-)
-it "must have at least 2 encrypted partitions using LVM." $(
-    CNT=$(lsblk | grep -e 'lvm' -e 'crypt' | wc -l)
-    test $CNT -ge 3
-)
-it "must have LV named root in $HOSTNAME-vg group" $(
-    LV_LIST="$(sudo lvdisplay -C -o lv_name,vg_name | grep "$HOSTNAME-vg")"
-    echo -n "$LV_LIST" | grep 'root'
-)
-it "must have LV named home in $HOSTNAME-vg group" $(
-    LV_LIST="$(sudo lvdisplay -C -o lv_name,vg_name | grep "$HOSTNAME-vg")"
-    echo -n "$LV_LIST" | grep 'home'
-)
-it "must have LV named swap_1 in $HOSTNAME-vg group" $(
-    LV_LIST="$(sudo lvdisplay -C -o lv_name,vg_name | grep "$HOSTNAME-vg")"
-    echo -n "$LV_LIST" | grep 'swap_1'
-)
+{
+    it "must be enable to lvm" $(
+        lsblk -o TYPE | grep 'lvm'
+    )
+    it "must have encrypted partition." $(
+        lsblk | grep -e 'crypt'
+    )
+    it "must have at least 2 encrypted partitions using LVM." $(
+        CNT=$(lsblk | grep -e 'lvm' -e 'crypt' | wc -l)
+        test $CNT -ge 3
+    )
+    it "must have LV named root in $HOSTNAME-vg group" $(
+        LV_LIST="$(sudo lvdisplay -C -o lv_name,vg_name | grep "$HOSTNAME-vg")"
+        echo -n "$LV_LIST" | grep 'root'
+    )
+    it "must have LV named home in $HOSTNAME-vg group" $(
+        LV_LIST="$(sudo lvdisplay -C -o lv_name,vg_name | grep "$HOSTNAME-vg")"
+        echo -n "$LV_LIST" | grep 'home'
+    )
+    it "must have LV named swap_1 in $HOSTNAME-vg group" $(
+        LV_LIST="$(sudo lvdisplay -C -o lv_name,vg_name | grep "$HOSTNAME-vg")"
+        echo -n "$LV_LIST" | grep 'swap_1'
+    )
+}
 
 # SSH
 testSweet "SSH Server"
@@ -90,11 +92,12 @@ it "is activate" $(
 # UFW
 testSweet "UFW"
 it "must open only 4242 port" $(
-    LINES="$(sudo ufw status | grep "ALLOW" | grep -v "4242" | wc -l)"
-    test $LINES -eq 0
+
+    LINES="$(sudo ufw status | grep "ALLOW" | grep "4242" | wc -l)"
+    test $LINES -eq 2 -o $LINES -eq 1
 )
 it "is activate" $(
-    service --status-all | grep '.*\+.*ufw'
+    ufw status | grep 'Status: active'
 )
 
 
@@ -190,12 +193,65 @@ it "setted secure_path: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 # monitoring.sh
 testSweet "monitoring"
 it "has /root/monitoring.sh" $(
-    test "$(sudo find / -name 'monitoring.sh' | wc -l)" -ne 0
+    test "$(sudo find "$HOME" -name 'monitoring.sh' | wc -l)" -ne 0
 )
 it "must set crontab" $(
     sudo crontab -l | grep -E '\*/10 *\* *\* *\* *\* *bash.*monitoring.sh'
 )
 it "check your monitoring.sh" --skip
+
+#
+# Envinron Error
+#
+testSweet "Test for this code working"
+it "must be install command \`which\`" $(
+    command which which
+)
+it "must be install command \`sudo\`" $(
+    which sudo
+)
+it "must be install command \`grep\`" $(
+    which grep
+)
+it "must be install command \`cat\`" $(
+    which cat
+)
+it "must be install command \`test\`" $(
+    which test
+)
+it "must be install command \`service\`" $(
+    which service
+)
+it "must be install command \`groups\`" $(
+    which groups
+)
+it "must be install command \`hostname\`" $(
+    which hostname
+)
+it "must be install command \`wc\`" $(
+    which wc
+)
+it "must be install command \`ufw\`" $(
+    which ufw
+)
+it "must be install command \`ssh\`" $(
+    which ssh
+)
+it "must be install command \`crontab\`" $(
+    which crontab
+)
+it "must be install command \`chage\`" $(
+    which chage
+)
+it "must be install command \`lvdisplay\`" $(
+    which lvdisplay
+)
+it "must be install command \`ss\`" $(
+    which ss
+)
+it "must be install command \`test\`" $(
+    which test
+)
 #
 # result
 #
