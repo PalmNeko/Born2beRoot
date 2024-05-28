@@ -86,7 +86,7 @@ it "must not be possible to connect using SSH as root" $(
     sudo sshd -T | grep 'permitrootlogin no'
 )
 it "is activate" $(
-    service --status-all | grep '.*\+.*ssh'
+    sudo service --status-all | grep '.*\+.*ssh'
 )
 
 # UFW
@@ -97,7 +97,7 @@ it "must open only 4242 port" $(
     test $LINES -eq 2 -o $LINES -eq 1
 )
 it "is activate" $(
-    ufw status | grep 'Status: active'
+    sudo ufw status | grep 'Status: active'
 )
 
 
@@ -202,7 +202,7 @@ it "setted secure_path: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:
 # monitoring.sh
 testSweet "monitoring"
 it "has /root/monitoring.sh" $(
-    test "$(sudo find "$HOME" -name 'monitoring.sh' | wc -l)" -ne 0
+    test "$(sudo find /root -name 'monitoring.sh' | wc -l)" -ne 0
 )
 it "must set crontab" $(
     sudo crontab -l | grep -E '\*/10 *\* *\* *\* *\* *bash.*monitoring.sh'
@@ -217,49 +217,49 @@ it "must be install command \`which\`" $(
     command which which
 )
 it "must be install command \`sudo\`" $(
-    which sudo
+    sudo which sudo
 )
 it "must be install command \`grep\`" $(
-    which grep
+    sudo which grep
 )
 it "must be install command \`cat\`" $(
-    which cat
+    sudo which cat
 )
 it "must be install command \`test\`" $(
-    which test
+    sudo which test
 )
 it "must be install command \`service\`" $(
-    which service
+    sudo which service
 )
 it "must be install command \`groups\`" $(
-    which groups
+    sudo which groups
 )
 it "must be install command \`hostname\`" $(
-    which hostname
+    sudo which hostname
 )
 it "must be install command \`wc\`" $(
-    which wc
+    sudo which wc
 )
 it "must be install command \`ufw\`" $(
-    which ufw
+    sudo which ufw
 )
 it "must be install command \`ssh\`" $(
-    which ssh
+    sudo which ssh
 )
 it "must be install command \`crontab\`" $(
-    which crontab
+    sudo which crontab
 )
 it "must be install command \`chage\`" $(
-    which chage
+    sudo which chage
 )
 it "must be install command \`lvdisplay\`" $(
-    which lvdisplay
+    sudo which lvdisplay
 )
 it "must be install command \`ss\`" $(
-    which ss
+    sudo which ss
 )
 it "must be install command \`test\`" $(
-    which test
+    sudo which test
 )
 #
 # result
