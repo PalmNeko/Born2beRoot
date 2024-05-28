@@ -21,6 +21,7 @@ question "ユーザをグループに追加は？" "sudo usermod -aG <groupname>
 question "パスワードの有効期限ルールを確認" "sudo chage -l <username>"
 question "ホスト名の確認は？" "hostname"
 question "ホスト名の変更は？" "hostnamectl set-hostname new_hostname と /etc/hostsを編集する"
+question "ブロックデバイスを一覧表示するには？" "lsblk"
 question "リブートは？" "sudo reboot"
 question "インストールされているかどうかの確認は？" "apt list | grep '確認したいプログラム名'"
 question "UFWの設定内容表示" "sudo ufw status"
