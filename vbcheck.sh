@@ -36,17 +36,21 @@ function surround() {
     printf "%b\n" "$txt"
 }
 
-## check Root
-# if [ "\`whoami\`" != "root" ]; then
-#   echo "Require root privilege"
-#   exit 1
-# fi
-
-# if [ "\`logname\`" = "root" ]; then
-#   echo "you have to start local user for sudo."
-#   exit 1
-# fi
-
+function testChageConfig() {
+    NAME=${1:-$(logname)}
+    it "that named \`$NAME\`'s changeable password min days must be 2." $(
+        MIN=$(sudo chage -l "$NAME" | grep 'Minimum number of days between password change' | awk -F ":" '{ print $2 }')
+        test "$MIN" -eq 2
+    )
+    it "that named \`$NAME\`'s password has to expire every 30 days." $(
+        MAX=$(sudo chage -l "$NAME" | grep 'Maximum number of days between password change' | awk -F ":" '{ print $2 }')
+        test "$MAX" -eq 30
+    )
+    it "that named \`$NAME\` must be received a warning message 7 days before their password expires." $(
+        MSGDAY=$(sudo chage -l "$NAME" | grep 'Number of days of warning before password expires' | awk -F ":" '{ print $2 }')
+        test "$MSGDAY" -eq 7
+    )
+}
 
 surround '\033[36mTesting Born2Beroot!!\033[m'
 
@@ -119,31 +123,8 @@ it "that named \`$USERNAME\` must belong to the user42 group" $(
 it "that named \`$USERNAME\` must belong to the sudo group" $(
     groups "$USERNAME" | grep -oE ':.*$' | tr ' ' '\n' | grep 'sudo'
 )
-it "that named \`$USERNAME\`'s changeable password min days must be 2." $(
-    MIN=$(chage -l "$USERNAME" | grep 'Minimum number of days between password change' | awk -F ":" '{ print $2 }')
-    test "$MIN" -eq 2
-)
-it "that named \`$USERNAME\`'s password has to expire every 30 days." $(
-    MAX=$(chage -l "$USERNAME" | grep 'Maximum number of days between password change' | awk -F ":" '{ print $2 }')
-    test "$MAX" -eq 30
-)
-it "that named \`$USERNAME\` must be received a warning message 7 days before their password expires." $(
-    MSGDAY=$(chage -l "$USERNAME" | grep 'Number of days of warning before password expires' | awk -F ":" '{ print $2 }')
-    test "$MSGDAY" -eq 7
-)
-
-it "that named root's changeable password min days must be 2." $(
-    MIN=$(sudo chage -l "root" | grep 'Minimum number of days between password change' | awk -F ":" '{ print $2 }')
-    test "$MIN" -eq 2
-)
-it "that named root's password has to expire every 30 days." $(
-    MAX=$(sudo chage -l "root" | grep 'Maximum number of days between password change' | awk -F ":" '{ print $2 }')
-    test "$MAX" -eq 30
-)
-it "that named root must be received a warning message 7 days before their password expires." $(
-    MSGDAY=$(sudo chage -l "root" | grep 'Number of days of warning before password expires' | awk -F ":" '{ print $2 }')
-    test "$MSGDAY" -eq 7
-)
+testChageConfig "$USERNAME"
+testChageConfig "root"
 it "that a new user must be warned a message before 7 days in password expired." $(
     cat /etc/login.defs | grep -vE '^ *#.*' | grep -E 'PASS_WARN_AGE[[:space:]]+7'
 )
