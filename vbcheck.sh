@@ -110,6 +110,16 @@ HOSTNAME=$(hostname)
 testSweet "hostname"
 it "should be partern \"*42\"" $(echo -n "$HOSTNAME" | grep '.*42')
 
+
+# check group
+testSweet "a group"
+it "that named 'sudo' must exist" $(
+    cat /etc/group | awk -F ":" '{print $1}' | grep 'sudo'
+)
+it "that named 'user42' must exist" $(
+    cat /etc/group | awk -F ":" '{print $1}' | grep 'user42'
+)
+
 # check user
 testSweet "a user"
 USERNAME="${HOSTNAME:0:-2}"
