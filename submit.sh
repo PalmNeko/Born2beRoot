@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(cd $(dirname $0) ; pwd)
 SUBMIT_DIR=submit
-SUBMIT_REPO="git@vogsphere-v2.42tokyo.jp:vogsphere/intra-uuid-e40f3299-df43-4404-8812-b9bb47a612b1-5297232-tookuyam"
+SUBMIT_REPO="git@vogsphere-v2.42tokyo.jp:vogsphere/intra-uuid-b07a0d59-2fdb-4912-90e6-51443c0f5475-5659958-tookuyam"
 
 # submit
 
