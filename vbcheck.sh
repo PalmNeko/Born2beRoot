@@ -200,6 +200,17 @@ it "must set crontab" $(
 )
 it "check your monitoring.sh" --skip
 
+# applications
+testSweet "application"
+it "that named ufw must be activated" $(
+    sudo systemctl status ufw | grep ' active'
+)
+it "that named cron must be activated" $(
+    sudo systemctl status cron | grep ' active'
+)
+it "that named ssh must be activated" $(
+    sudo systemctl status ssh | grep ' active'
+)
 #
 # Envinron Error
 #
