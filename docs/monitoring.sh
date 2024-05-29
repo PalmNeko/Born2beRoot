@@ -43,7 +43,7 @@ MAC=$(ip -br link show | grep -v 'lo' | awk '{print $3}')
 NETWORK="IP $IP ($MAC)"
 
 # number of executing sudo
-SUDO=$(cat /var/log/sudo/seq | awk '{printf "%d", $1}')
+SUDO=$(sudoreplay -l -d /var/log/sudo | wc -l)
 
 wall "	#Architecture: $ARCHITECTURE
 	#CPU physical : $CPU_PHYSICAL
